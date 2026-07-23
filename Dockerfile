@@ -22,7 +22,7 @@ COPY . .
 RUN cd packages/database && npx prisma generate
 
 # Build the apps using turbo
-RUN turbo run build
+RUN npm run build
 
 # Start the apps
 # We can use a lightweight process manager or just start the API since this is a typical setup
