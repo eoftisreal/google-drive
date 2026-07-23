@@ -26,7 +26,7 @@ export default async function BrowsePage() {
           {mediaList.map((media: any) => (
             <Link
               key={media.id}
-              href={\`/watch/\${media.id}\`}
+              href={`/watch/${media.id}`}
               className="group flex flex-col gap-2 transition-transform duration-300 hover:scale-[1.02]"
             >
               <div className="aspect-video bg-surface rounded-lg overflow-hidden border border-surface/50 flex items-center justify-center">

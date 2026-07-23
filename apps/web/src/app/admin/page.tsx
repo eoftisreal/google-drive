@@ -33,7 +33,7 @@ export default function AdminDashboard() {
       } else {
         setMessage(json.error?.message || "Failed to add media.");
       }
-    } catch (err) {
+    } catch {
       setMessage("Error connecting to server.");
     } finally {
       setLoading(false);

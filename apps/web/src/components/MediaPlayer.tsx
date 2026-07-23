@@ -149,7 +149,7 @@ export function MediaPlayer({ src, poster, title }: MediaPlayerProps) {
         >
           <div
             className="absolute top-0 left-0 h-full bg-primary rounded"
-            style={{ width: \`\${progress}%\` }}
+            style={{ width: `${progress}%` }}
           />
         </div>
 
