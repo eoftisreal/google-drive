@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
 import { StorageService } from './storage.service';
 import { GoogleDriveProvider } from './google-drive.provider';
 
@@ -24,6 +24,6 @@ describe('StorageService', () => {
   });
 
   it('should throw error for unknown provider', () => {
-    expect(() => service.getProvider('UNKNOWN')).toThrowError('Storage provider UNKNOWN not found');
+    expect(() => service.getProvider('UNKNOWN')).toThrow('Storage provider UNKNOWN not found');
   });
 });
