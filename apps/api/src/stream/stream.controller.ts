@@ -38,7 +38,7 @@ export class StreamController {
         const stream = await provider.getStream(source.providerFileId, range);
 
         res.writeHead(HttpStatus.PARTIAL_CONTENT, {
-          'Content-Range': \`bytes \${start}-\${end}/\${fileSize}\`,
+          'Content-Range': `bytes ${start}-${end}/${fileSize}`,
           'Accept-Ranges': 'bytes',
           'Content-Length': chunksize,
           'Content-Type': metadata.mimeType,
@@ -55,7 +55,7 @@ export class StreamController {
         stream.pipe(res);
       }
     } catch (error: any) {
-      this.logger.error(\`Failed to stream media \${id}\`, error.stack);
+      this.logger.error(`Failed to stream media ${id}`, error.stack);
       if (!res.headersSent) {
         res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: { code: 'STREAM_ERROR', message: error.message } });
       }

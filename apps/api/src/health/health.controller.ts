@@ -8,7 +8,7 @@ export class HealthController {
   @Get()
   async check() {
     try {
-      await this.prisma.$queryRaw\`SELECT 1\`;
+      await this.prisma.$queryRaw`SELECT 1`;
       return { status: 'ok', db: 'connected' };
     } catch (error) {
       return { status: 'error', db: 'disconnected' };
