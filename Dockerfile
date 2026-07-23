@@ -9,6 +9,7 @@ RUN npm install -g turbo
 COPY package.json package-lock.json turbo.json ./
 COPY packages/core/package.json ./packages/core/
 COPY packages/database/package.json ./packages/database/
+COPY packages/ui/package.json ./packages/ui/
 COPY apps/api/package.json ./apps/api/
 COPY apps/web/package.json ./apps/web/
 
