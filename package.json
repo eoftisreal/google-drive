@@ -7,10 +7,10 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "test": "turbo run test",
+    "build": "turbo run build --filter=!//",
+    "dev": "turbo run dev --filter=!//",
+    "lint": "turbo run lint --filter=!//",
+    "test": "turbo run test --filter=!//",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
   },
   "devDependencies": {
