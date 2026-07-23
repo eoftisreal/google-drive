@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum MediaStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum Provider {
+  GOOGLE_DRIVE
+  S3
+  R2
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(USER)
+  settings     Json?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  mediaCreated Media[]
+  watchHistory WatchHistory[]
+  auditLogs    AuditLog[]
+}
+
+model Media {
+  id          String      @id @default(uuid())
+  title       String
+  description String?
+  posterUrl   String?
+  duration    Int?        // in seconds
+  status      MediaStatus @default(DRAFT)
+  viewCount   Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  deletedAt   DateTime?
+
+  createdBy   String
+  creator     User        @relation(fields: [createdBy], references: [id])
+
+  sources     MediaSource[]
+  history     WatchHistory[]
+
+  @@index([title])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model MediaSource {
+  id             String   @id @default(uuid())
+  mediaId        String
+  provider       Provider
+  providerFileId String
+  quality        String?
+  size           BigInt?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  media          Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@unique([mediaId, provider, quality])
+}
+
+model WatchHistory {
+  id              String   @id @default(uuid())
+  userId          String
+  mediaId         String
+  progressSeconds Int      @default(0)
+  completed       Boolean  @default(false)
+  updatedAt       DateTime @updatedAt
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  media           Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, mediaId])
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  action     String
+  entityType String
+  entityId   String
+  payload    Json?
+  createdAt  DateTime @default(now())
+
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
