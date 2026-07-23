@@ -1,4 +1,12 @@
 import Link from "next/link";
+/* eslint-disable @next/next/no-img-element */
+
+interface MediaItem {
+  id: string;
+  title: string;
+  description: string | null;
+  posterUrl: string | null;
+}
 
 async function getMediaList() {
   try {
@@ -23,7 +31,7 @@ export default async function BrowsePage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {mediaList.map((media: any) => (
+          {mediaList.map((media: MediaItem) => (
             <Link
               key={media.id}
               href={`/watch/${media.id}`}

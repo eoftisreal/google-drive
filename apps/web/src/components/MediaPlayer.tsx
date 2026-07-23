@@ -17,20 +17,48 @@ export function MediaPlayer({ src, poster, title }: MediaPlayerProps) {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showControls, setShowControls] = useState(true);
 
-  let controlsTimeout: NodeJS.Timeout;
+  const controlsTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseMove = useCallback(() => {
     setShowControls(true);
-    clearTimeout(controlsTimeout);
-    controlsTimeout = setTimeout(() => {
+    if (controlsTimeout.current) clearTimeout(controlsTimeout.current);
+    controlsTimeout.current = setTimeout(() => {
       if (isPlaying) setShowControls(false);
     }, 3000);
   }, [isPlaying]);
+
+  const togglePlay = useCallback(() => {
+    if (videoRef.current?.paused) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    } else {
+      videoRef.current?.pause();
+      setIsPlaying(false);
+      setShowControls(true);
+    }
+  }, []);
+
+  const toggleMute = useCallback(() => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = !videoRef.current.muted;
+    setIsMuted(videoRef.current.muted);
+  }, []);
+
+  const toggleFullscreen = useCallback(async () => {
+    if (!containerRef.current) return;
+
+    if (!document.fullscreenElement) {
+      await containerRef.current.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      await document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -62,41 +90,12 @@ export function MediaPlayer({ src, poster, title }: MediaPlayerProps) {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isPlaying, isFullscreen, isMuted]);
-
-  const togglePlay = () => {
-    if (videoRef.current?.paused) {
-      videoRef.current.play();
-      setIsPlaying(true);
-    } else {
-      videoRef.current?.pause();
-      setIsPlaying(false);
-      setShowControls(true);
-    }
-  };
+  }, [togglePlay, toggleFullscreen, toggleMute]);
 
   const handleTimeUpdate = () => {
     if (!videoRef.current) return;
     const p = (videoRef.current.currentTime / videoRef.current.duration) * 100;
     setProgress(p);
-  };
-
-  const toggleMute = () => {
-    if (!videoRef.current) return;
-    videoRef.current.muted = !videoRef.current.muted;
-    setIsMuted(videoRef.current.muted);
-  };
-
-  const toggleFullscreen = async () => {
-    if (!containerRef.current) return;
-
-    if (!document.fullscreenElement) {
-      await containerRef.current.requestFullscreen();
-      setIsFullscreen(true);
-    } else {
-      await document.exitFullscreen();
-      setIsFullscreen(false);
-    }
   };
 
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
