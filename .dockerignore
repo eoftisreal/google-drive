@@ -11,3 +11,7 @@ coverage
 **/coverage
 .env
 .env.local
+
+apps/api/.env
+**/.env
+**/.env.local
