@@ -53,7 +53,6 @@ COPY --from=builder /app/packages ./packages
 COPY apps/api/package.json ./apps/api/
 
 # Copy .env if exists (optional, can be injected at runtime)
-COPY apps/api/.env* ./apps/api/
 
 # Expose port
 EXPOSE 8080
