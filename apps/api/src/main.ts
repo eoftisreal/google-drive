@@ -9,10 +9,8 @@ async function bootstrap() {
     // Add global exception filter
     app.useGlobalFilters(new AllExceptionsFilter());
 
-    // NOTE: Do NOT set global prefix here!
-    // DigitalOcean routing with preserve_path_prefix: true handles /api prefix
-    // If running locally without the /api route, uncomment below:
-    // app.setGlobalPrefix('api');
+    // Set global prefix to match DigitalOcean preserve_path_prefix
+    app.setGlobalPrefix('api');
 
     // Enable CORS with configurable origins
     app.enableCors({
