@@ -2,7 +2,7 @@ import { Controller, Post, Body, Get, Param, UseGuards, Query } from '@nestjs/co
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
-@Controller('api/history')
+@Controller('history')
 export class HistoryController {
   constructor(private readonly prisma: PrismaService) {}
 
