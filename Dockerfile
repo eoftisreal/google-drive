@@ -41,7 +41,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY apps/api/package.json ./apps/api/
 
 # Copy .env if exists (optional, can be injected at runtime)
-COPY apps/api/.env* ./apps/api/ 2>/dev/null || true
+COPY apps/api/.env* ./apps/api/
 
 # Expose port
 EXPOSE 8080
