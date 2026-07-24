@@ -3,7 +3,7 @@ import { Response } from 'express';
 import { PrismaService } from '../prisma/prisma.service';
 import { StorageService } from '../storage/storage.service';
 
-@Controller('stream')
+@Controller('api/stream')
 export class StreamController {
   private readonly logger = new Logger(StreamController.name);
 

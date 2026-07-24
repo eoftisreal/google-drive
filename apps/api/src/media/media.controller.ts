@@ -5,7 +5,7 @@ import { Roles } from '../auth/roles.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 
-@Controller('media')
+@Controller('api/media')
 export class MediaController {
   constructor(private readonly prisma: PrismaService) {}
 
