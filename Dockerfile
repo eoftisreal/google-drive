@@ -3,6 +3,11 @@ FROM node:20-slim AS builder
 # Set working directory
 WORKDIR /app
 
+# Install OpenSSL (required by Prisma to detect libssl version at generate time)
+RUN apt-get update -y && \
+    apt-get install -y openssl && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install turbo
 RUN npm install -g turbo
 
@@ -31,6 +36,12 @@ RUN npm run build
 # ============================================================================
 
 FROM node:20-slim
+
+# Install OpenSSL (required by Prisma to detect libssl version and load the
+# correct query engine binary)
+RUN apt-get update -y && \
+    apt-get install -y openssl && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
