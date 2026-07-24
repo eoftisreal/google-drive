@@ -38,6 +38,7 @@ WORKDIR /app
 COPY --from=builder /app/apps/api/dist ./apps/api/dist
 COPY --from=builder /app/apps/api/node_modules ./apps/api/node_modules
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/packages ./packages
 COPY apps/api/package.json ./apps/api/
 
 # Copy .env if exists (optional, can be injected at runtime)
