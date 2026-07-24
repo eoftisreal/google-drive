@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start:prod": "node dist/src/main.js",
+    "start:prod": "node dist/main.js",
     "build": "tsc -p tsconfig.build.json"
   },
   "keywords": [],
@@ -32,6 +32,7 @@
   "dependencies": {
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/passport": "^11.0.5",
+    "@nestjs/platform-express": "^11.1.28",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "core": "file:../../packages/core",
