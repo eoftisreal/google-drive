@@ -38,6 +38,7 @@ services:
     http_port: 8080
     routes:
       - path: /api
+        preserve_path_prefix: true
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME
