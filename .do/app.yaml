@@ -16,7 +16,7 @@ services:
       deploy_on_push: true
       repo: eoftisreal/google-drive
     source_dir: /
-    build_command: turbo run build --filter=web
+    build_command: turbo run build
     run_command: npm run start --workspace=web
     environment_slug: node-js
     instance_count: 1
