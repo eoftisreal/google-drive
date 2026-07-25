@@ -10,7 +10,8 @@ async function bootstrap() {
     app.useGlobalFilters(new AllExceptionsFilter());
 
     // Set global prefix to match DigitalOcean preserve_path_prefix
-    app.setGlobalPrefix('api');
+    // FIXED: Changed from 'api' to 'api/v1' to match frontend expectations
+    app.setGlobalPrefix('api/v1');
 
     // Enable CORS with configurable origins
     app.enableCors({
@@ -24,7 +25,7 @@ async function bootstrap() {
     await app.listen(port);
 
     console.log(`🚀 API Server running on http://localhost:${port}`);
-    console.log(`📍 Routes available at http://localhost:${port}/ (or https://yourdomain.com/api/ in production)`);
+    console.log(`📍 Routes available at http://localhost:${port}/api/v1 (or https://yourdomain.com/api/v1 in production)`);
   } catch (error) {
     console.error('❌ Failed to start server:', error);
     process.exit(1);
