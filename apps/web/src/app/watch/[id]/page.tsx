@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 async function getMedia(id: string) {
   try {
-    const res = await fetch(`http://localhost:3001/api/v1/media/${id}`, { cache: 'no-store' });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/media/${id}`, { cache: 'no-store' });
     if (!res.ok) return null;
     const json = await res.json();
     return json.data;
@@ -20,7 +20,7 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
   }
 
   // Pass proxy stream URL to the player
-  const streamUrl = `http://localhost:3001/api/v1/stream/${media.id}`;
+  const streamUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/stream/${media.id}`;
 
   return (
     <div className="max-w-5xl mx-auto flex flex-col gap-6">

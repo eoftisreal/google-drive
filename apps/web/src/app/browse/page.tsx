@@ -10,7 +10,7 @@ interface MediaItem {
 
 async function getMediaList() {
   try {
-    const res = await fetch("http://localhost:3001/api/v1/media", { cache: 'no-store' });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/media`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
     return json.data || [];
