@@ -2,23 +2,18 @@
 > web@0.1.0 build
 > next build
 
-Attention: Next.js now collects completely anonymous telemetry regarding usage.
-This information is used to shape Next.js' roadmap and prioritize features.
-You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
-https://nextjs.org/telemetry
-
 ▲ Next.js 16.2.11 (Turbopack)
 
   Creating an optimized production build ...
-✓ Compiled successfully in 3.6s
+✓ Compiled successfully in 5.9s
   Skipping validation of types
-  Finished TypeScript config validation in 8ms ...
+  Finished TypeScript config validation in 10ms ...
   Collecting page data using 3 workers ...
   Generating static pages using 3 workers (0/6) ...
   Generating static pages using 3 workers (1/6)
   Generating static pages using 3 workers (2/6)
   Generating static pages using 3 workers (4/6)
-✓ Generating static pages using 3 workers (6/6) in 321ms
+✓ Generating static pages using 3 workers (6/6) in 318ms
   Finalizing page optimization ...
 
 Route (app)
