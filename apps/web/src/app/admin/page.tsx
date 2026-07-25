@@ -15,9 +15,21 @@ export default function AdminDashboard() {
     setMessage("");
 
     try {
+      // FIXED: Added Authorization header with Bearer token
+      const token = localStorage.getItem('authToken') || process.env.NEXT_PUBLIC_ADMIN_TOKEN || '';
+
+      if (!token) {
+        setMessage('Error: No authentication token found. Please login first.');
+        setLoading(false);
+        return;
+      }
+
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/media?userId=admin-user`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
         body: JSON.stringify({
           title,
           provider: "GOOGLE_DRIVE",
