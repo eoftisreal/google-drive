@@ -4,6 +4,7 @@ import { CreateMediaSchema, PaginationSchema } from 'core';
 import { Roles } from '../auth/roles.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
+import { normalizeGoogleDriveFileId } from '../storage/google-drive-link.util';
 
 @Controller('media')
 export class MediaController {
@@ -71,7 +72,9 @@ export class MediaController {
         sources: {
           create: [{
             provider: validatedData.provider as any,
-            providerFileId: validatedData.providerFileId,
+            providerFileId: validatedData.provider === 'GOOGLE_DRIVE'
+              ? normalizeGoogleDriveFileId(validatedData.providerFileId)
+              : validatedData.providerFileId,
           }]
         }
       },

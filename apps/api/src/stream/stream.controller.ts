@@ -2,6 +2,7 @@ import { Controller, Get, Param, Headers, Res, HttpStatus, NotFoundException, Lo
 import { Response } from 'express';
 import { PrismaService } from '../prisma/prisma.service';
 import { StorageService } from '../storage/storage.service';
+import { normalizeGoogleDriveFileId } from '../storage/google-drive-link.util';
 
 @Controller('stream')
 export class StreamController {
@@ -25,7 +26,10 @@ export class StreamController {
       }
 
       const provider = this.storage.getProvider(source.provider);
-      const metadata = await provider.getMetadata(source.providerFileId);
+      const providerFileId = source.provider === 'GOOGLE_DRIVE'
+        ? normalizeGoogleDriveFileId(source.providerFileId)
+        : source.providerFileId;
+      const metadata = await provider.getMetadata(providerFileId);
 
       const fileSize = metadata.size;
 
@@ -35,7 +39,7 @@ export class StreamController {
         const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
 
         const chunksize = (end - start) + 1;
-        const stream = await provider.getStream(source.providerFileId, range);
+        const stream = await provider.getStream(providerFileId, range);
 
         res.writeHead(HttpStatus.PARTIAL_CONTENT, {
           'Content-Range': `bytes ${start}-${end}/${fileSize}`,
@@ -51,7 +55,7 @@ export class StreamController {
           'Content-Type': metadata.mimeType,
         });
 
-        const stream = await provider.getStream(source.providerFileId);
+        const stream = await provider.getStream(providerFileId);
         stream.pipe(res);
       }
     } catch (error: any) {
