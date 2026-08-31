@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export default function AdminDashboard() {
   const [title, setTitle] = useState("");
-  const [fileId, setFileId] = useState("");
+  const [sourceInput, setSourceInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -33,7 +33,7 @@ export default function AdminDashboard() {
         body: JSON.stringify({
           title,
           provider: "GOOGLE_DRIVE",
-          providerFileId: fileId,
+          providerFileId: sourceInput,
         }),
       });
 
@@ -41,7 +41,7 @@ export default function AdminDashboard() {
       if (res.ok && !json.error) {
         setMessage("Success! Media added.");
         setTitle("");
-        setFileId("");
+        setSourceInput("");
       } else {
         setMessage(json.error?.message || "Failed to add media.");
       }
@@ -71,13 +71,14 @@ export default function AdminDashboard() {
           />
         </div>
         <div className="space-y-2">
-          <label htmlFor="fileId" className="text-sm font-medium">Google Drive File ID</label>
+          <label htmlFor="sourceInput" className="text-sm font-medium">Google Drive File ID or Share Link</label>
           <input
-            id="fileId"
+            id="sourceInput"
             required
             className="w-full p-2 bg-background border border-gray-800 rounded outline-none focus:border-primary"
-            value={fileId}
-            onChange={(e) => setFileId(e.target.value)}
+            placeholder="https://drive.google.com/file/d/... or file ID"
+            value={sourceInput}
+            onChange={(e) => setSourceInput(e.target.value)}
           />
         </div>
         <Button type="submit" disabled={loading} className="w-full">
